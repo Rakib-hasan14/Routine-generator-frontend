@@ -1,0 +1,116 @@
+.home{}
+
+.home h1{
+    color: #7979b6
+}
+
+.parent_div{
+    display: flex;
+}
+
+.schedules{
+    width: 60%;
+    margin-left: 10%;
+    border-radius: 4px;
+}
+
+.weekDay_title  {
+    font-size: 24px;
+    color: #7979ff !important;
+    width: 20%;
+    text-align: left;
+    margin: 0px;
+    border-right: 1px solid blueviolet;
+    padding: 12px;
+    
+}
+.single_schedule{
+    border: 1px solid blueviolet;
+    display: flex;
+    align-items: center
+}
+
+.events{
+    display: flex;
+}
+.event   {
+    background: blueviolet;
+    margin-left: 11px;
+    color: white;
+    padding: 1px 9px;
+}
+.event h6 {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+.event p{
+    margin-top: 3px;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.add_schedule{
+    width: 20%;
+    margin-right: 10%;
+}
+.schedule_btn{
+    background: blueviolet;
+    border: none;
+    border-radius: 11px;
+    padding: 10px 31px;
+    color: white;
+    font-weight: bold;
+}
+
+.modal {
+    position: absolute;
+    top: 10px;
+    left: 38%;
+    background: #660080;
+    padding: 50px;
+    border-radius: 12px;
+    color: white;
+}
+
+.modal_btn {
+    background: blueviolet;
+    border: none;
+    border-radius: 11px;
+    padding: 10px 31px;
+    color: white;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-right: 10px
+}
+
+.modal-title.h4 {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.modal-dialog {
+    width: 90%;
+}
+
+.title{
+    display: block;
+    width: 96%;
+    height: 2pc;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.radios{
+    margin-right: 10px;
+}
+
+.time {
+    display: inline;
+    width: 49px;
+    margin: 10px;
+}
