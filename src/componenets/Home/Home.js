@@ -50,30 +50,30 @@ const HomeComponent = () => {
         setShow(true)
     };
 
-    useEffect(() => {
-        async function fetchData() {
-            const token = cookies.get('token')
-            console.log(token, 'token')
-            if (!token) window.location.href = '/login';
-            const response = await axios.get('https://routine-generator-backend.onrender.com/schedule', {
-                headers: {
-                    'Authorization': `bearer ${token}`
-                }
-            })
-            if (response.data.status) {
-                const schedules = response.data.data
-                for (const schedule of schedules) {
-                    const index = weekDays.findIndex(item => item._id === schedule._id)
-                    if (index >= 0) {
-                        weekDays[index] = schedule
+        useEffect(() => {
+            async function fetchData() {
+                const token = cookies.get('token')
+                console.log(token, 'token')
+                if (!token) window.location.href = '/login';
+                const response = await axios.get('https://routine-generator-backend.onrender.com/schedule', {
+                    headers: {
+                        'Authorization': `bearer ${token}`
                     }
+                })
+                if (response.data.status) {
+                    const schedules = response.data.data
+                    for (const schedule of schedules) {
+                        const index = weekDays.findIndex(item => item._id === schedule._id)
+                        if (index >= 0) {
+                            weekDays[index] = schedule
+                        }
+                    }
+                    setWeekDays(weekDays)
                 }
-                setWeekDays(weekDays)
+                console.log(weekDays, 'weekDays')
             }
-            console.log(weekDays, 'weekDays')
-        }
-        fetchData()
-    }, [])
+            fetchData()
+        }, [])
 
 
     const handleScheduleTitle = (e) => {
@@ -103,9 +103,9 @@ const HomeComponent = () => {
 
 
     const handleCreate = async (event) => {
-    const token = cookies.get('token')
-            console.log(token, 'token')
-            if (!token) window.location.href = '/login';
+        const token = cookies.get('token')
+        console.log(token, 'token')
+        if (!token) window.location.href = '/login';
         event.preventDefault()
         const response = await axios.post('https://routine-generator-backend.onrender.com/schedule/create', {
             title,
@@ -118,8 +118,6 @@ const HomeComponent = () => {
                 'Authorization': `bearer ${token}`
             }
         })
-
-        console.log(response, 'responsegot')
         handleClose()
     }
 
@@ -145,27 +143,65 @@ const HomeComponent = () => {
 
     const handleUpdate = async (event) => {
         const token = cookies.get('token')
-                console.log(token, 'token')
-                if (!token) window.location.href = '/login';
-            event.preventDefault()
-            const response = await axios.post('https://routine-generator-backend.onrender.com/schedule/update', {
-                title,
-                start_time: startHour + ':' + startMin,
-                end_time: endHour + ':' + endMin,
-                priority,
-                dayName,
-                id
-            }, {
-                headers: {
-                    'Authorization': `bearer ${token}`
-                }
-            })
-    
-            console.log(response, 'responsegot')
-            
-            setIsUpdate(false)
-            handleClose()
-        }
+        console.log(token, 'token')
+        if (!token) window.location.href = '/login';
+        event.preventDefault()
+        const response = await axios.post('https://routine-generator-backend.onrender.com/schedule/update', {
+            title,
+            start_time: startHour + ':' + startMin,
+            end_time: endHour + ':' + endMin,
+            priority,
+            dayName,
+            id
+        }, {
+            headers: {
+                'Authorization': `bearer ${token}`
+            }
+        })
+
+        console.log(response, 'responsegot')
+
+        setIsUpdate(false)
+        handleClose()
+    }
+
+    const handleDelete = async (event) => {
+        const token = cookies.get('token')
+        console.log(token, 'token')
+        if (!token) window.location.href = '/login';
+        event.preventDefault()
+        const response = await axios.post('https://routine-generator-backend.onrender.com/schedule/delete', {
+            id
+        }, {
+            headers: {
+                'Authorization': `bearer ${token}`
+            }
+        })
+
+        console.log(response, 'responsegot')
+
+        setIsUpdate(false)
+        handleClose()
+    }
+    const handleLogout = async (event) => {
+        const token = cookies.get('token')
+        console.log(token, 'token')
+        if (!token) window.location.href = '/login';
+        event.preventDefault()
+        const response = await axios.post('https://routine-generator-backend.onrender.com/student/logout', {
+            headers: {
+                'Authorization': `bearer ${token}`
+            }
+        })
+        
+        console.log(response, 'responsegot')
+        cookies.set('token', '')
+        window.location.href = '/login';
+
+
+        setIsUpdate(false)
+        handleClose()
+    }
 
     return (
         <div className='home'>
@@ -176,7 +212,7 @@ const HomeComponent = () => {
                         <h1 className='weekDay_title'>{weekDay._id.toUpperCase()}</h1>
                         <div className='events'>
                             {weekDay?.data?.map(singleData => <div className='event'>
-                                <h6 onClick={()=> handleUpdatModal(singleData)}>{singleData.title}</h6>
+                                <h6 onClick={() => handleUpdatModal(singleData)}>{singleData.title}</h6>
                                 <p>{singleData.start_time} - {singleData.end_time}</p>
                             </div>)}
                         </div>
@@ -186,6 +222,10 @@ const HomeComponent = () => {
                     <>
                         <Button className='schedule_btn' variant="primary" onClick={handleShow}>
                             Add schedule
+                        </Button>
+                        <br/>
+                        <Button className='schedule_btn signout' variant="primary" onClick={handleLogout}>
+                            Logout
                         </Button>
 
                         <Modal className='modal' show={show} onHide={handleClose}>
@@ -219,20 +259,20 @@ const HomeComponent = () => {
                                 <input onChange={() => setDayName("saturday")} type="radio" id="sat" name="fav_language" value="saturday" />
                                 <label onChange={() => setDayName("saturday")} className='radios' for="sat">Sat</label>
                             </div>
-                           
+
                             <Modal.Footer>
                                 <Button className='modal_btn' variant="secondary" onClick={handleClose}>
                                     Close
                                 </Button>
-                                { isUpdate ? <Button className='modal_btn' variant="primary" onClick={handleUpdate}>
+                                {isUpdate ? <Button className='modal_btn' variant="primary" onClick={handleUpdate}>
                                     Update
                                 </Button> : <Button className='modal_btn' variant="primary" onClick={handleCreate}>
                                     Create
                                 </Button>}
-                                {isUpdate && <Button className='modal_btn' variant="primary" onClick={handleCreate}>
+                                {isUpdate && <Button className='modal_btn' variant="primary" onClick={handleDelete}>
                                     Delete
                                 </Button>}
-                                
+
                             </Modal.Footer>
                         </Modal>
                     </>

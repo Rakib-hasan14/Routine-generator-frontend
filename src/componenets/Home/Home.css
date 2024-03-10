@@ -67,7 +67,7 @@
 .modal {
     position: absolute;
     top: 10px;
-    left: 38%;
+    left: 33%;
     background: #660080;
     padding: 50px;
     border-radius: 12px;
@@ -113,4 +113,8 @@
     display: inline;
     width: 49px;
     margin: 10px;
+}
+
+.signout{
+    margin-top: 20px;
 }
